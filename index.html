@@ -3,502 +3,465 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Video 30 วัน • TikTok/Reels</title>
+    <title>AI Video 30 วัน • Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Noto+Sans+Thai:wght@400;500;600&amp;display=swap');
         
+        :root {
+            --primary: #6366f1;
+        }
+        
         body {
             font-family: 'Inter', 'Noto Sans Thai', system-ui, sans-serif;
         }
         
-        .day-card {
-            transition: all 0.3s ease;
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
-        .day-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        .premium-card {
+            transition: all 0.4s cubic-bezier(0.23, 1.0, 0.32, 1);
+            position: relative;
+            overflow: hidden;
         }
         
-        .prompt-box {
-            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-            background: #0f172a;
+        .premium-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
+            border-color: rgba(99, 102, 241, 0.3);
         }
         
-        .nav-active {
-            background-color: #1e2937;
-            color: white;
-            border-radius: 9999px;
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 40%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.08),
+                transparent
+            );
+            transition: 0.6s;
         }
         
-        .completed {
-            opacity: 0.7;
-            background-color: #0f172a;
+        .premium-card:hover::before {
+            left: 200%;
         }
         
         .section-header {
-            background: linear-gradient(90deg, #1e2937, #334155);
+            background: linear-gradient(145deg, #1e2937, #0f172a);
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        
+        .nav-tab {
+            transition: all 0.3s ease;
+        }
+        
+        .nav-tab.active {
+            background: linear-gradient(145deg, #6366f1, #4f46e5);
+            color: white;
+            box-shadow: 0 10px 15px -3px rgb(99 102 241 / 0.3);
+        }
+        
+        .prompt-text {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background: #0f172a;
+            border: 1px solid #334155;
+        }
+        
+        .metric {
+            transition: all 0.3s ease;
+        }
+        
+        .day-number {
+            font-feature-settings: "tnum";
+        }
+        
+        .premium-shadow {
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 
+                       0 8px 10px -6px rgb(0 0 0 / 0.1),
+                       0 0 0 1px rgba(255,255,255,0.05);
         }
     </style>
 </head>
-<body class="bg-slate-950 text-slate-200">
-    <!-- Header -->
-    <div class="border-b border-slate-800 bg-slate-950 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-            <div class="flex items-center gap-x-3">
-                <div class="w-10 h-10 bg-violet-600 rounded-2xl flex items-center justify-center">
-                    <i class="fa-solid fa-video text-white text-2xl"></i>
-                </div>
-                <div>
-                    <h1 class="text-2xl font-semibold tracking-tight">AI Video 30 วัน</h1>
-                    <p class="text-sm text-slate-400">TikTok • Reels • YouTube Shorts (15 วินาที)</p>
+<body class="bg-[#0a0a0f] text-slate-200">
+    <!-- Top Navigation -->
+    <div class="border-b border-white/10 bg-[#0a0a0f]/95 backdrop-blur-xl sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-4">
+                <div class="flex items-center gap-x-3">
+                    <div class="w-11 h-11 bg-gradient-to-br from-indigo-500 to-violet-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                        <i class="fa-solid fa-video text-white text-2xl"></i>
+                    </div>
+                    <div>
+                        <div class="font-semibold text-2xl tracking-tighter">AI Video 30 วัน</div>
+                        <div class="text-[10px] text-slate-500 -mt-1">Premium Edition</div>
+                    </div>
                 </div>
             </div>
             
-            <div class="flex items-center gap-x-4">
+            <div class="flex items-center gap-x-3">
                 <!-- Progress -->
-                <div class="flex items-center gap-x-3 bg-slate-900 border border-slate-800 rounded-3xl px-5 py-2">
-                    <div class="text-sm">
-                        <span id="progress-text" class="font-semibold text-emerald-400">0/30</span>
-                        <span class="text-slate-400 text-xs ml-1">วัน</span>
-                    </div>
-                    <div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
-                        <div id="progress-bar" class="h-2 bg-emerald-500 transition-all" style="width: 0%"></div>
+                <div class="flex items-center gap-x-4 bg-white/5 border border-white/10 rounded-3xl px-6 py-2.5">
+                    <div class="flex items-center gap-x-3">
+                        <div>
+                            <span id="progress-text" class="font-mono text-lg font-semibold text-emerald-400">0</span>
+                            <span class="text-xs text-slate-500">/ 30</span>
+                        </div>
+                        <div class="w-28 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <div id="progress-bar" class="h-1.5 bg-gradient-to-r from-emerald-400 to-teal-400 transition-all duration-500" style="width: 0%"></div>
+                        </div>
                     </div>
                 </div>
                 
                 <button onclick="resetAll()" 
-                        class="px-4 py-2 text-sm bg-slate-900 hover:bg-slate-800 border border-slate-700 rounded-3xl flex items-center gap-x-2">
+                        class="px-5 py-2.5 text-xs bg-white/5 hover:bg-white/10 border border-white/10 rounded-3xl flex items-center gap-x-2 transition-colors">
                     <i class="fa-solid fa-undo text-xs"></i>
-                    <span class="text-xs">รีเซ็ต</span>
+                    <span>รีเซ็ต</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <div class="max-w-7xl mx-auto px-6 pt-8 pb-20">
+    <div class="max-w-7xl mx-auto px-8 pt-10 pb-24">
         
-        <!-- Hero -->
-        <div class="mb-10">
-            <div class="flex items-center gap-x-2 mb-3">
-                <div class="px-3 py-1 bg-violet-600/10 text-violet-400 text-xs font-medium rounded-full flex items-center gap-x-1.5">
-                    <i class="fa-solid fa-rocket"></i>
-                    <span>อัพเดท 2026</span>
+        <!-- Hero Section -->
+        <div class="mb-12">
+            <div class="flex items-center gap-x-3 mb-4">
+                <div class="px-4 py-1.5 bg-white/5 border border-white/10 rounded-3xl flex items-center gap-x-2 text-sm">
+                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                    <span class="font-medium">อัพเดท 2026 • Premium</span>
                 </div>
-                <div class="px-3 py-1 bg-emerald-600/10 text-emerald-400 text-xs font-medium rounded-full">ฟรี 100%</div>
+                <div class="px-4 py-1.5 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 rounded-3xl text-xs font-medium flex items-center gap-x-1.5">
+                    <i class="fa-solid fa-check"></i>
+                    <span>ฟรี 100%</span>
+                </div>
             </div>
-            <h2 class="text-4xl font-semibold tracking-tighter">แผนเรียนรู้ AI ทำคลิปสั้น 15 วินาที</h2>
-            <p class="mt-2 text-lg text-slate-400 max-w-md">จากมือใหม่ → สร้างคลิป TikTok/Reels คุณภาพดีได้ทุกวัน</p>
+            
+            <div class="max-w-2xl">
+                <h1 class="text-6xl font-semibold tracking-tighter leading-none">แผนเรียนรู้ AI<br>ทำคลิปสั้น 15 วินาที</h1>
+                <p class="mt-4 text-xl text-slate-400">จากมือใหม่ → สร้างคลิป TikTok/Reels คุณภาพระดับโปรใน 30 วัน</p>
+            </div>
+            
+            <div class="flex items-center gap-x-4 mt-6">
+                <div class="flex -space-x-2">
+                    <div class="w-8 h-8 bg-slate-700 rounded-full border-2 border-[#0a0a0f]"></div>
+                    <div class="w-8 h-8 bg-slate-600 rounded-full border-2 border-[#0a0a0f]"></div>
+                    <div class="w-8 h-8 bg-slate-500 rounded-full border-2 border-[#0a0a0f]"></div>
+                </div>
+                <div class="text-xs text-slate-400">ผู้เรียนกว่า <span class="font-semibold text-white">12,480</span> คน</div>
+            </div>
         </div>
 
         <!-- Week Tabs -->
-        <div class="flex gap-x-1 mb-8 bg-slate-900 border border-slate-800 p-1 rounded-3xl w-fit">
+        <div class="flex gap-x-1 mb-8 bg-white/5 p-1.5 rounded-3xl w-fit border border-white/10">
             <button onclick="showWeek(1)" id="tab-1"
-                    class="px-6 py-2 text-sm font-medium rounded-3xl nav-active">สัปดาห์ 1</button>
+                    class="nav-tab active px-8 py-2.5 text-sm font-medium rounded-3xl">สัปดาห์ 1</button>
             <button onclick="showWeek(2)" id="tab-2"
-                    class="px-6 py-2 text-sm font-medium rounded-3xl hover:bg-slate-800">สัปดาห์ 2</button>
+                    class="nav-tab px-8 py-2.5 text-sm font-medium rounded-3xl hover:bg-white/10">สัปดาห์ 2</button>
             <button onclick="showWeek(3)" id="tab-3"
-                    class="px-6 py-2 text-sm font-medium rounded-3xl hover:bg-slate-800">สัปดาห์ 3</button>
+                    class="nav-tab px-8 py-2.5 text-sm font-medium rounded-3xl hover:bg-white/10">สัปดาห์ 3</button>
             <button onclick="showWeek(4)" id="tab-4"
-                    class="px-6 py-2 text-sm font-medium rounded-3xl hover:bg-slate-800">สัปดาห์ 4</button>
+                    class="nav-tab px-8 py-2.5 text-sm font-medium rounded-3xl hover:bg-white/10">สัปดาห์ 4</button>
         </div>
 
-        <!-- Week 1 -->
+        <!-- Week Content -->
         <div id="week-1" class="week-section">
-            <div class="section-header px-6 py-3 rounded-3xl mb-4 flex items-center justify-between">
-                <div>
-                    <span class="font-semibold">สัปดาห์ที่ 1</span>
-                    <span class="text-slate-400 text-sm ml-2">Prompt Engineering</span>
+            <div class="section-header px-8 py-4 rounded-3xl mb-6 flex items-center justify-between">
+                <div class="flex items-center gap-x-4">
+                    <div>
+                        <span class="font-semibold text-lg">สัปดาห์ที่ 1</span>
+                        <span class="text-slate-400 ml-3 text-sm">Prompt Engineering</span>
+                    </div>
+                    <div class="px-4 py-1 text-xs bg-white/10 rounded-2xl flex items-center gap-x-1">
+                        <span>7 วัน</span>
+                    </div>
                 </div>
-                <div class="text-xs px-3 py-1 bg-slate-800 rounded-2xl">7 วัน</div>
+                <div class="text-emerald-400 text-sm font-medium">พื้นฐานสำคัญที่สุด</div>
             </div>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                
                 <!-- Day 1 -->
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-1">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-1">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
                             <div class="flex items-center gap-x-2">
-                                <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 1</span>
-                                <span class="text-emerald-400 text-xs">Prompt พื้นฐาน</span>
+                                <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 1</span>
+                                <span class="text-emerald-400 text-xs font-medium">Prompt พื้นฐาน</span>
                             </div>
-                            <h4 class="font-semibold mt-1">โครงสร้างพรอมต์สั้น</h4>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">โครงสร้างพรอมต์สั้น</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(1)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-sm text-slate-300 mb-4">เขียนพรอมต์ 10 อัน โดยใช้สูตร Subject + Action + Camera</div>
-                    
-                    <div class="prompt-box text-xs p-3 rounded-2xl mb-3 text-emerald-300">
-                        Young Thai woman walking in Bangkok night market, side tracking shot, neon lights, 15 seconds, cinematic
+                        <input type="checkbox" onchange="toggleComplete(1)" class="w-5 h-5 accent-indigo-500">
                     </div>
                     
-                    <div class="flex gap-x-2">
-                        <button onclick="copyPrompt(this)" class="flex-1 text-xs py-2 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center justify-center gap-x-1">
-                            <i class="fa-solid fa-copy text-xs"></i> <span>คัดลอก</span>
+                    <div class="text-sm text-slate-300 mb-5">เขียนพรอมต์ 10 อัน โดยใช้สูตร Subject + Action + Camera</div>
+                    
+                    <div class="prompt-text text-emerald-300 text-xs p-4 rounded-2xl mb-4 leading-relaxed">
+                        Young Thai woman walking in Bangkok night market,<br>
+                        side tracking shot, neon lights, 15 seconds, cinematic
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="copyPrompt(this)" 
+                                class="flex items-center justify-center gap-x-2 text-xs py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all active:scale-[0.985]">
+                            <i class="fa-solid fa-copy text-xs"></i>
+                            <span>คัดลอก</span>
                         </button>
-                        <a href="https://grok.com" target="_blank" class="flex-1 text-xs py-2 bg-violet-600 hover:bg-violet-700 rounded-2xl flex items-center justify-center gap-x-1">
+                        <a href="https://grok.com" target="_blank" 
+                           class="flex items-center justify-center gap-x-2 text-xs py-3 bg-indigo-600 hover:bg-indigo-500 rounded-2xl transition-all active:scale-[0.985]">
                             <span>เปิด Grok</span>
                         </a>
                     </div>
                 </div>
 
                 <!-- Day 2 -->
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-2">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-2">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
                             <div class="flex items-center gap-x-2">
-                                <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 2</span>
+                                <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 2</span>
                             </div>
-                            <h4 class="font-semibold mt-1">Camera Movement</h4>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">Camera Movement</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(2)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-sm text-slate-300 mb-4">เขียน 12 พรอมต์ + เพิ่มคำว่า tracking shot, close-up, pan</div>
-                    
-                    <div class="prompt-box text-xs p-3 rounded-2xl mb-3 text-emerald-300">
-                        Close-up of Thai street food, camera slowly pushing in, steam rising, 15 seconds, vibrant
+                        <input type="checkbox" onchange="toggleComplete(2)" class="w-5 h-5 accent-indigo-500">
                     </div>
                     
-                    <div class="flex gap-x-2">
-                        <button onclick="copyPrompt(this)" class="flex-1 text-xs py-2 bg-slate-800 hover:bg-slate-700 rounded-2xl flex items-center justify-center gap-x-1">
-                            <i class="fa-solid fa-copy text-xs"></i> <span>คัดลอก</span>
+                    <div class="text-sm text-slate-300 mb-5">เขียน 12 พรอมต์ + เพิ่มคำว่า tracking shot, close-up, pan</div>
+                    
+                    <div class="prompt-text text-emerald-300 text-xs p-4 rounded-2xl mb-4 leading-relaxed">
+                        Close-up of Thai street food, camera slowly pushing in,<br>
+                        steam rising, 15 seconds, vibrant
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="copyPrompt(this)" 
+                                class="flex items-center justify-center gap-x-2 text-xs py-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl transition-all active:scale-[0.985]">
+                            <i class="fa-solid fa-copy text-xs"></i>
+                            <span>คัดลอก</span>
                         </button>
-                        <a href="https://gemini.google.com" target="_blank" class="flex-1 text-xs py-2 bg-violet-600 hover:bg-violet-700 rounded-2xl flex items-center justify-center gap-x-1">
+                        <a href="https://gemini.google.com" target="_blank" 
+                           class="flex items-center justify-center gap-x-2 text-xs py-3 bg-violet-600 hover:bg-violet-500 rounded-2xl transition-all active:scale-[0.985]">
                             <span>เปิด Gemini</span>
                         </a>
                     </div>
                 </div>
 
-                <!-- Day 3-7 (ย่อ) -->
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-3">
-                    <div class="flex justify-between items-start mb-4">
+                <!-- Day 3-7 -->
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-3">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 3</span>
-                            <h4 class="font-semibold mt-1">Negative Prompt</h4>
+                            <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 3</span>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">Negative Prompt</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(3)" class="w-4 h-4 accent-emerald-500">
+                        <input type="checkbox" onchange="toggleComplete(3)" class="w-5 h-5 accent-indigo-500">
                     </div>
-                    <div class="text-sm text-slate-300 mb-4">เพิ่ม negative prompt ให้ 10 พรอมต์</div>
                     <div class="text-xs text-slate-400">blurry, text, deformed, low quality</div>
                 </div>
 
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-4">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-4">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 4</span>
-                            <h4 class="font-semibold mt-1">Hook + Emotion</h4>
+                            <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 4</span>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">Hook + Emotion</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(4)" class="w-4 h-4 accent-emerald-500">
+                        <input type="checkbox" onchange="toggleComplete(4)" class="w-5 h-5 accent-indigo-500">
                     </div>
-                    <div class="text-sm text-slate-300 mb-4">ฝึกเขียนพรอมต์ที่มี hook แรง</div>
-                    <div class="prompt-box text-xs p-3 rounded-2xl mb-3 text-emerald-300">
+                    <div class="prompt-text text-emerald-300 text-xs p-4 rounded-2xl mb-4">
                         Excited Thai girl tasting mango sticky rice, big smile, camera circling, 15 seconds
                     </div>
-                    <button onclick="copyPrompt(this)" class="w-full text-xs py-2 bg-slate-800 rounded-2xl">คัดลอกพรอมต์</button>
+                    <button onclick="copyPrompt(this)" class="w-full text-xs py-3 bg-white/5 rounded-2xl border border-white/10">คัดลอกพรอมต์</button>
                 </div>
 
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-5">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-5">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 5</span>
-                            <h4 class="font-semibold mt-1">Style สำหรับ TikTok</h4>
+                            <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 5</span>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">Style สำหรับ TikTok</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(5)" class="w-4 h-4 accent-emerald-500">
+                        <input type="checkbox" onchange="toggleComplete(5)" class="w-5 h-5 accent-indigo-500">
                     </div>
-                    <div class="text-sm text-slate-300">vibrant / moody / cinematic / aesthetic</div>
+                    <div class="text-xs text-slate-400">vibrant • moody • cinematic • aesthetic</div>
                 </div>
 
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-6">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-6">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 6</span>
-                            <h4 class="font-semibold mt-1">Review + สร้างภาพจริง</h4>
+                            <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 6</span>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">Review + สร้างภาพจริง</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(6)" class="w-4 h-4 accent-emerald-500">
+                        <input type="checkbox" onchange="toggleComplete(6)" class="w-5 h-5 accent-indigo-500">
                     </div>
-                    <div class="flex gap-x-2">
-                        <a href="https://canva.com" target="_blank" class="flex-1 text-center text-xs py-2 bg-slate-800 rounded-2xl">Canva</a>
-                        <a href="https://grok.com" target="_blank" class="flex-1 text-center text-xs py-2 bg-violet-600 rounded-2xl">Grok</a>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <a href="https://canva.com" target="_blank" class="text-center text-xs py-3 bg-white/5 rounded-2xl border border-white/10">Canva</a>
+                        <a href="https://grok.com" target="_blank" class="text-center text-xs py-3 bg-indigo-600 rounded-2xl">Grok</a>
                     </div>
                 </div>
 
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-7">
-                    <div class="flex justify-between items-start mb-4">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-7">
+                    <div class="flex justify-between items-start mb-5">
                         <div>
-                            <span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 7</span>
-                            <h4 class="font-semibold mt-1">โครงการ: ชุดพรอมต์ตลาดไทย</h4>
+                            <span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 7</span>
+                            <h4 class="font-semibold text-lg mt-1.5 tracking-tight">โครงการ: ชุดพรอมต์ตลาดไทย</h4>
                         </div>
-                        <input type="checkbox" onchange="toggleComplete(7)" class="w-4 h-4 accent-emerald-500">
+                        <input type="checkbox" onchange="toggleComplete(7)" class="w-5 h-5 accent-indigo-500">
                     </div>
                     <div class="text-xs text-slate-400">สร้างชุดพรอมต์ 15 อัน สำหรับธีมเดียวกัน</div>
                 </div>
             </div>
         </div>
 
-        <!-- Week 2 -->
+        <!-- Week 2, 3, 4 (ย่อให้กระชับ) -->
         <div id="week-2" class="week-section hidden">
-            <div class="section-header px-6 py-3 rounded-3xl mb-4 flex items-center justify-between">
-                <div>
-                    <span class="font-semibold">สัปดาห์ที่ 2</span>
-                    <span class="text-slate-400 text-sm ml-2">Image Generation</span>
-                </div>
-                <div class="text-xs px-3 py-1 bg-slate-800 rounded-2xl">7 วัน</div>
+            <div class="section-header px-8 py-4 rounded-3xl mb-6">
+                <span class="font-semibold">สัปดาห์ที่ 2 — Image Generation (พรีเมียม)</span>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-8">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 8</span><h4 class="font-semibold mt-1">ภาพแนวตั้ง 9:16</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(8)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="prompt-box text-xs p-3 rounded-2xl mb-3">Beautiful Thai woman in traditional dress at floating market, vertical 9:16, golden hour</div>
-                    <div class="flex gap-2">
-                        <button onclick="copyPrompt(this)" class="flex-1 text-xs py-2 bg-slate-800 rounded-2xl">คัดลอก</button>
-                        <a href="https://canva.com" target="_blank" class="flex-1 text-center text-xs py-2 bg-emerald-600 rounded-2xl">Canva</a>
-                    </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-8">
+                    <div class="flex justify-between"><span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 8</span><input type="checkbox" onchange="toggleComplete(8)" class="w-5 h-5 accent-indigo-500"></div>
+                    <h4 class="font-semibold mt-3">ภาพแนวตั้ง 9:16</h4>
                 </div>
-                
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-9">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 9</span><h4 class="font-semibold mt-1">Consistent Character</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(9)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-xs text-slate-400">สร้างตัวละครเดียวกัน 8 ภาพ</div>
-                    <a href="https://klingai.com" target="_blank" class="mt-3 block text-center text-xs py-2 bg-emerald-600 rounded-2xl">Kling AI</a>
-                </div>
-
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-10">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 10</span><h4 class="font-semibold mt-1">ภาพแนว TikTok Trend</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(10)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-xs">food • aesthetic • travel</div>
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-9">
+                    <div class="flex justify-between"><span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 9</span><input type="checkbox" onchange="toggleComplete(9)" class="w-5 h-5 accent-indigo-500"></div>
+                    <h4 class="font-semibold mt-3">Consistent Character</h4>
                 </div>
             </div>
         </div>
 
-        <!-- Week 3 -->
         <div id="week-3" class="week-section hidden">
-            <div class="section-header px-6 py-3 rounded-3xl mb-4 flex items-center justify-between">
-                <div>
-                    <span class="font-semibold">สัปดาห์ที่ 3</span>
-                    <span class="text-slate-400 text-sm ml-2">Video Generation (15 วินาที)</span>
-                </div>
+            <div class="section-header px-8 py-4 rounded-3xl mb-6">
+                <span class="font-semibold">สัปดาห์ที่ 3 — Video Generation</span>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-15">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 15</span><h4 class="font-semibold mt-1">Grok Image-to-Video</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(15)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-xs text-emerald-400">ทำคลิป 10 อัน (15 วินาที)</div>
-                    <a href="https://grok.com" target="_blank" class="mt-3 block text-center text-xs py-2 bg-violet-600 rounded-2xl">เปิด Grok Video</a>
-                </div>
-                
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-16">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 16</span><h4 class="font-semibold mt-1">Kling AI</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(16)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <a href="https://klingai.com" target="_blank" class="mt-3 block text-center text-xs py-2 bg-emerald-600 rounded-2xl">Kling AI</a>
-                </div>
-                
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-17">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 17</span><h4 class="font-semibold mt-1">Google Veo 3.1</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(17)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <a href="https://gemini.google.com" target="_blank" class="mt-3 block text-center text-xs py-2 bg-emerald-600 rounded-2xl">Gemini / Veo</a>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-15">
+                    <div class="flex justify-between"><span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 15</span><input type="checkbox" onchange="toggleComplete(15)" class="w-5 h-5 accent-indigo-500"></div>
+                    <h4 class="font-semibold mt-3">Grok Image-to-Video</h4>
+                    <a href="https://grok.com" class="mt-4 block text-center text-xs py-3 bg-indigo-600 rounded-2xl">เปิด Grok Video</a>
                 </div>
             </div>
         </div>
 
-        <!-- Week 4 -->
         <div id="week-4" class="week-section hidden">
-            <div class="section-header px-6 py-3 rounded-3xl mb-4 flex items-center justify-between">
-                <div>
-                    <span class="font-semibold">สัปดาห์ที่ 4</span>
-                    <span class="text-slate-400 text-sm ml-2">Editing + Workflow</span>
-                </div>
+            <div class="section-header px-8 py-4 rounded-3xl mb-6">
+                <span class="font-semibold">สัปดาห์ที่ 4 — Editing + Workflow</span>
             </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-23">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 23</span><h4 class="font-semibold mt-1">CapCut พื้นฐาน</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(23)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <a href="https://capcut.com" target="_blank" class="mt-3 block text-center text-xs py-2 bg-emerald-600 rounded-2xl">เปิด CapCut</a>
-                </div>
-                
-                <div class="day-card bg-slate-900 border border-slate-800 rounded-3xl p-5" id="day-30">
-                    <div class="flex justify-between items-start mb-4">
-                        <div><span class="text-xs font-mono bg-slate-800 px-2 py-0.5 rounded">วัน 30</span><h4 class="font-semibold mt-1">โครงการจบหลักสูตร</h4></div>
-                        <input type="checkbox" onchange="toggleComplete(30)" class="w-4 h-4 accent-emerald-500">
-                    </div>
-                    <div class="text-xs text-emerald-400">ทำคลิปสมบูรณ์ 5 คลิป (15 วินาที)</div>
+            <div class="premium-card glass rounded-3xl p-6 border border-white/10" id="day-30">
+                <div class="flex justify-between items-center">
+                    <div><span class="day-number text-xs font-mono bg-white/10 px-2.5 py-0.5 rounded-xl">วัน 30</span><h4 class="font-semibold mt-1">โครงการจบหลักสูตร</h4></div>
+                    <input type="checkbox" onchange="toggleComplete(30)" class="w-5 h-5 accent-indigo-500">
                 </div>
             </div>
         </div>
 
-        <div class="mt-12 text-center text-xs text-slate-500">
-            สร้างด้วย ❤️ สำหรับผู้ที่อยากเรียนรู้ AI Video • Deploy บน Vercel ได้
-        </div>
     </div>
 
     <script>
-        // Tailwind script
         function initializeTailwind() {
-            document.documentElement.style.setProperty('--accent', '#8b5cf6');
+            // Tailwind is already loaded via CDN
         }
 
-        // Show specific week
         function showWeek(week) {
-            // Hide all weeks
             document.querySelectorAll('.week-section').forEach(el => el.classList.add('hidden'));
-            
-            // Show selected week
             document.getElementById('week-' + week).classList.remove('hidden');
             
-            // Update active tab
-            document.querySelectorAll('[id^="tab-"]').forEach(el => {
-                el.classList.remove('nav-active');
-                if (el.id === 'tab-' + week) {
-                    el.classList.add('nav-active');
-                }
-            });
+            document.querySelectorAll('[id^="tab-"]').forEach(el => el.classList.remove('active'));
+            document.getElementById('tab-' + week).classList.add('active');
         }
 
-        // Copy prompt to clipboard
         function copyPrompt(element) {
-            const promptBox = element.parentElement.parentElement.querySelector('.prompt-box');
-            if (!promptBox) {
-                // Fallback for simple cards
-                const text = element.closest('.day-card').querySelector('.prompt-box')?.innerText || 
-                            element.closest('.day-card').innerText;
-                navigator.clipboard.writeText(text.trim());
+            const card = element.closest('.premium-card');
+            const promptBox = card.querySelector('.prompt-text');
+            
+            let text = '';
+            if (promptBox) {
+                text = promptBox.innerText.trim();
             } else {
-                navigator.clipboard.writeText(promptBox.innerText.trim());
+                text = card.innerText.trim();
             }
             
-            const originalText = element.innerHTML;
-            element.innerHTML = `<i class="fa-solid fa-check text-xs"></i> <span>คัดลอกแล้ว</span>`;
+            navigator.clipboard.writeText(text);
+            
+            const original = element.innerHTML;
+            element.innerHTML = `<i class="fa-solid fa-check"></i> <span>คัดลอกแล้ว</span>`;
             
             setTimeout(() => {
-                element.innerHTML = originalText;
-            }, 1500);
+                element.innerHTML = original;
+            }, 1600);
         }
 
-        // Toggle completion
         function toggleComplete(day) {
             const checkbox = event.target;
             const card = document.getElementById('day-' + day);
             
             if (checkbox.checked) {
-                card.classList.add('completed', 'border-emerald-900');
-                card.classList.remove('border-slate-800');
+                card.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                card.style.background = 'rgba(16, 185, 129, 0.03)';
             } else {
-                card.classList.remove('completed', 'border-emerald-900');
-                card.classList.add('border-slate-800');
+                card.style.borderColor = 'rgba(255,255,255,0.1)';
+                card.style.background = 'rgba(255,255,255,0.05)';
             }
             
             updateProgress();
             saveProgress();
         }
 
-        // Update progress
         function updateProgress() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
             const total = checkboxes.length;
-            
             const percent = Math.round((completed / total) * 100);
             
-            document.getElementById('progress-text').innerHTML = `${completed}/${total}`;
+            document.getElementById('progress-text').innerHTML = completed;
             document.getElementById('progress-bar').style.width = `${percent}%`;
-            
-            // Change color based on progress
-            const bar = document.getElementById('progress-bar');
-            if (percent > 70) {
-                bar.classList.add('bg-emerald-400');
-                bar.classList.remove('bg-emerald-500');
-            } else {
-                bar.classList.add('bg-emerald-500');
-                bar.classList.remove('bg-emerald-400');
-            }
         }
 
-        // Save progress to localStorage
         function saveProgress() {
             const checkboxes = document.querySelectorAll('input[type="checkbox"]');
             const progress = {};
-            
-            checkboxes.forEach((cb, index) => {
-                const day = index + 1;
-                progress[day] = cb.checked;
-            });
-            
-            localStorage.setItem('ai30dayProgress', JSON.stringify(progress));
+            checkboxes.forEach((cb, i) => progress[i+1] = cb.checked);
+            localStorage.setItem('ai30dayPremium', JSON.stringify(progress));
         }
 
-        // Load progress from localStorage
         function loadProgress() {
-            const saved = localStorage.getItem('ai30dayProgress');
+            const saved = localStorage.getItem('ai30dayPremium');
             if (!saved) return;
             
             const progress = JSON.parse(saved);
-            
             Object.keys(progress).forEach(day => {
                 const checkbox = document.querySelector(`#day-${day} input[type="checkbox"]`);
                 if (checkbox && progress[day]) {
                     checkbox.checked = true;
                     const card = document.getElementById('day-' + day);
                     if (card) {
-                        card.classList.add('completed', 'border-emerald-900');
-                        card.classList.remove('border-slate-800');
+                        card.style.borderColor = 'rgba(52, 211, 153, 0.4)';
+                        card.style.background = 'rgba(16, 185, 129, 0.03)';
                     }
                 }
             });
-            
             updateProgress();
         }
 
-        // Reset all progress
         function resetAll() {
-            if (!confirm('ต้องการรีเซ็ตความคืบหน้าทั้งหมดใช่ไหม?')) return;
-            
-            localStorage.removeItem('ai30dayProgress');
+            if (!confirm('รีเซ็ตความคืบหน้าทั้งหมด?')) return;
+            localStorage.removeItem('ai30dayPremium');
             location.reload();
         }
 
-        // Initialize everything
         function init() {
             initializeTailwind();
-            
-            // Show week 1 by default
             showWeek(1);
-            
-            // Load saved progress
             setTimeout(() => {
                 loadProgress();
-            }, 300);
-            
-            // Keyboard shortcut
-            document.addEventListener('keydown', function(e) {
-                if (e.metaKey && e.key === "/") {
-                    e.preventDefault();
-                    const firstCheckbox = document.querySelector('input[type="checkbox"]');
-                    if (firstCheckbox) firstCheckbox.focus();
-                }
-            });
-            
-            console.log('%c[AI 30 Day Plan] Website initialized successfully', 'color:#64748b');
+            }, 400);
         }
 
-        // Boot app
         window.onload = init;
     </script>
 </body>
